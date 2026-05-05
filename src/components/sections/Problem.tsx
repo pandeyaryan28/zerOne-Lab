@@ -10,7 +10,7 @@ export const Problem = () => {
     },
     {
       icon: <Wallet className="w-8 h-8 text-rose-500" />,
-      title: "Agencies charge ₹50,000+",
+      title: "Agencies charge ₹50,000+, ₹1,00,000+",
       description: "Traditional agencies are slow and expensive, eating up your pre-seed capital."
     },
     {

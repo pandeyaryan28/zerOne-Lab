@@ -3,9 +3,9 @@ import { Award, TrendingUp } from "lucide-react";
 
 export const Clients = () => {
   const clients = [
-    { name: "Intugine Technologies", type: "Logistics Tech" },
-    { name: "SVS Food", type: "F&B" },
-    { name: "UniCare", type: "HealthTech", highlight: "INVESTOR FUNDED" },
+    { name: "Intugine Technologies", type: "Logistics Tech", highlight: "SERIES A" },
+    { name: "SVS Food", type: "F&B", highlight: "SHARK TANK FUNDED" },
+    { name: "UniCare", type: "HealthTech", highlight: "FUNDED BY OUR PARTNER" },
     { name: "Glinte LipGloss", type: "D2C Fashion" },
   ];
 
