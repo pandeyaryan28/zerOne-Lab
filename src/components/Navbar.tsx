@@ -14,8 +14,8 @@ export const Navbar = () => {
           <div className="w-8 h-8 bg-neon-primary rounded-sm flex items-center justify-center">
             <div className="w-4 h-4 bg-dark-bg rotate-45"></div>
           </div>
-          <span className="text-xl font-display font-bold tracking-tighter text-white uppercase">
-            ZERONE LABS
+          <span className="text-xl font-display font-bold tracking-tighter text-white">
+            zer<span className="text-neon-primary">O</span>ne Lab
           </span>
         </div>
         
@@ -32,10 +32,20 @@ export const Navbar = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" className="hidden sm:inline-flex bg-white/5 border-white/10 rounded-full text-[10px] uppercase tracking-widest px-5 font-bold">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => alert("Client Portal launching soon for active founders!")}
+            className="hidden sm:inline-flex bg-white/5 border-white/10 rounded-full text-[10px] uppercase tracking-widest px-5 font-bold"
+          >
             Client Portal
           </Button>
-          <Button glow size="sm" className="rounded-full px-5 text-xs uppercase tracking-widest font-bold">
+          <Button 
+            glow 
+            size="sm" 
+            onClick={() => window.open('https://forms.gle/5EMDGejeuiucGJZG8', '_blank')}
+            className="rounded-full px-5 text-xs uppercase tracking-widest font-bold"
+          >
             Get Started
           </Button>
         </div>

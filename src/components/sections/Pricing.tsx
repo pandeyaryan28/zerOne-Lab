@@ -8,8 +8,7 @@ export const Pricing = () => {
     "Core Features Implementation",
     "Premium Dark/Light UI",
     "Cloud Deployment",
-    "Basic Market Testing Support",
-    "Investor-Ready Pitch Slide"
+    "Basic Market Testing Support"
   ];
 
   return (
@@ -56,7 +55,12 @@ export const Pricing = () => {
                 <div className="text-neon-primary/60 text-xs font-mono uppercase tracking-[0.3em]">limited slots available</div>
               </motion.div>
 
-              <Button glow size="lg" className="w-full h-14 text-sm uppercase tracking-widest font-black bg-white text-black hover:bg-neon-primary rounded-md">
+              <Button 
+                glow 
+                size="lg" 
+                onClick={() => window.open('https://forms.gle/5EMDGejeuiucGJZG8', '_blank')}
+                className="w-full h-14 text-sm uppercase tracking-widest font-black bg-white text-black hover:bg-neon-primary rounded-md"
+              >
                 Secure Your Slot
               </Button>
               <p className="mt-6 text-[10px] text-white/30 text-center md:text-right uppercase tracking-[0.3em] font-bold">

@@ -66,8 +66,8 @@ export default function App() {
         <Philosophy />
         <WhatIsZerone />
         <div id="pricing"><Pricing /></div>
-        <div id="value"><Value /></div>
         <AddOns />
+        <div id="value"><Value /></div>
         <WhyItWorks />
         <div id="process"><Process /></div>
         <Footer />

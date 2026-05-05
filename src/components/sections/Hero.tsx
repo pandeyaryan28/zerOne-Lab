@@ -52,11 +52,21 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center gap-4"
           >
-            <Button glow size="lg" className="h-16 px-10 text-lg font-bold rounded-lg shadow-[0_0_30px_rgba(198,255,0,0.3)]">
+            <Button 
+              glow 
+              size="lg" 
+              onClick={() => window.open('https://forms.gle/5EMDGejeuiucGJZG8', '_blank')}
+              className="h-16 px-10 text-lg font-bold rounded-lg shadow-[0_0_30px_rgba(198,255,0,0.3)]"
+            >
               Get Your MVP Built
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="outline" size="lg" className="h-16 px-10 text-lg rounded-lg">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              onClick={() => window.open('https://calendly.com', '_blank')}
+              className="h-16 px-10 text-lg rounded-lg"
+            >
               Book Strategy Call
             </Button>
           </motion.div>
