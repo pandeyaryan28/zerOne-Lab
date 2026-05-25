@@ -1,33 +1,28 @@
 import { motion } from "motion/react";
 import { Button } from "./Button";
-import { Zap } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as React from "react";
 
-interface NavbarProps {
-  currentView?: "home" | "case-studies";
-  onViewChange?: (view: "home" | "case-studies", caseId?: string | null) => void;
-}
+export const Navbar = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-export const Navbar: React.FC<NavbarProps> = ({ currentView = "home", onViewChange }) => {
+  const isHome = pathname === "/";
+  const isCaseStudies = pathname.startsWith("/case-studies");
+
   const handleLogoClick = () => {
-    if (onViewChange) {
-      onViewChange("home");
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    navigate("/");
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    if (currentView !== "home" && onViewChange) {
-      e.preventDefault();
-      onViewChange("home");
-      // Delay slightly to let page render before scrolling
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
+    e.preventDefault();
+    if (!isHome) {
+      navigate(`/#${targetId}`);
+    } else {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -51,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = "home", onViewChan
           {["Problem", "Pricing", "Process", "Value"].map((item) => (
             <a
               key={item}
-              href={`#${item.toLowerCase()}`}
+              href={`/#${item.toLowerCase()}`}
               onClick={(e) => handleNavClick(e, item.toLowerCase())}
               className="text-sm font-medium text-white/60 hover:text-neon-primary transition-colors uppercase tracking-[0.1em]"
             >
@@ -59,13 +54,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = "home", onViewChan
             </a>
           ))}
           <a
-            href="#case-studies"
+            href="/case-studies"
             onClick={(e) => {
               e.preventDefault();
-              if (onViewChange) onViewChange("case-studies");
+              navigate("/case-studies");
             }}
             className={`text-sm font-medium transition-colors uppercase tracking-[0.1em] ${
-              currentView === "case-studies" ? "text-neon-primary border-b border-neon-primary" : "text-white/60 hover:text-neon-primary"
+              isCaseStudies ? "text-neon-primary border-b border-neon-primary" : "text-white/60 hover:text-neon-primary"
             }`}
           >
             Case Studies
@@ -85,8 +80,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = "home", onViewChan
             glow 
             size="sm" 
             onClick={() => {
-              if (onViewChange) {
-                onViewChange("home");
+              if (!isHome) {
+                navigate("/");
                 setTimeout(() => {
                   window.open('https://forms.gle/5EMDGejeuiucGJZG8', '_blank');
                 }, 100);

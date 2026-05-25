@@ -1,30 +1,16 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useParams, useNavigate } from "react-router-dom";
 import { caseStudies, CaseStudy } from "../../lib/caseStudiesData";
 import { Button } from "../Button";
 import { ArrowLeft, ExternalLink, Search, Sparkles, Zap, CheckCircle2, ArrowRight } from "lucide-react";
 
-interface CaseStudiesProps {
-  onBackToHome: () => void;
-  initialSelectedId?: string | null;
-  onClearSelectedId?: () => void;
-}
+export const CaseStudies: React.FC = () => {
+  const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
 
-export const CaseStudies: React.FC<CaseStudiesProps> = ({ 
-  onBackToHome, 
-  initialSelectedId = null,
-  onClearSelectedId
-}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedCaseId, setSelectedCaseId] = useState<string | null>(initialSelectedId);
-
-  // Sync with initialSelectedId from parent when it changes
-  React.useEffect(() => {
-    if (initialSelectedId) {
-      setSelectedCaseId(initialSelectedId);
-    }
-  }, [initialSelectedId]);
 
   const categories = useMemo(() => {
     const list = new Set(caseStudies.map((c) => c.category));
@@ -44,21 +30,22 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({
   }, [selectedCategory, searchQuery]);
 
   const currentCase = useMemo(() => {
-    if (!selectedCaseId) return null;
-    return caseStudies.find((c) => c.id === selectedCaseId) || null;
-  }, [selectedCaseId]);
+    if (!id) return null;
+    return caseStudies.find((c) => c.id === id) || null;
+  }, [id]);
 
   const handleCloseDetail = () => {
-    setSelectedCaseId(null);
-    if (onClearSelectedId) {
-      onClearSelectedId();
-    }
+    navigate("/case-studies");
   };
 
-  const handleSelectCase = (id: string) => {
-    setSelectedCaseId(id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const handleSelectCase = (caseId: string) => {
+    navigate(`/case-studies/${caseId}`);
   };
+
+  // Scroll to top when view changes or detail is opened
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
 
   return (
     <section className="min-h-screen pt-32 pb-24 relative overflow-hidden bg-dark-bg">
@@ -85,7 +72,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    onClick={onBackToHome}
+                    onClick={() => navigate("/")}
                     className="mb-6 -ml-4 flex items-center gap-2 text-white/50 hover:text-neon-primary"
                   >
                     <ArrowLeft className="w-4 h-4" />
@@ -242,7 +229,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({
                 <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-[1.05] mb-6">
                   {currentCase.client}
                 </h1>
-                <h2 className="text-xl md:text-2xl font-bold text-white/90 leading-snug mb-10 border-l-2 border-neon-primary pl-6">
+                <h2 className="text-xl md:text-2xl font-bold text-white/90 leading-snug mb-10 border-l-2 border-neon-primary/30 pl-6">
                   {currentCase.title}
                 </h2>
 

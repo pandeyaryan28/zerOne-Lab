@@ -1,12 +1,10 @@
 import { motion } from "motion/react";
 import { Award, TrendingUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import * as React from "react";
 
-interface ClientsProps {
-  onSelectCase?: (caseId: string) => void;
-}
-
-export const Clients: React.FC<ClientsProps> = ({ onSelectCase }) => {
+export const Clients = () => {
+  const navigate = useNavigate();
   const clients = [
     { name: "Intugine Technologies", type: "Logistics Tech", highlight: "SERIES A" },
     { name: "SVS Food", type: "F&B", highlight: "SHARK TANK FUNDED" },
@@ -36,16 +34,14 @@ export const Clients: React.FC<ClientsProps> = ({ onSelectCase }) => {
             <div
               key={i}
               onClick={() => {
-                if (onSelectCase) {
-                  const idMap: Record<string, string> = {
-                    "Intugine Technologies": "intugine",
-                    "SVS Food": "svsfood",
-                    "UniCare": "unicare",
-                    "Glinte LipGloss": "glinte"
-                  };
-                  const caseId = idMap[client.name];
-                  if (caseId) onSelectCase(caseId);
-                }
+                const idMap: Record<string, string> = {
+                  "Intugine Technologies": "intugine",
+                  "SVS Food": "svsfood",
+                  "UniCare": "unicare",
+                  "Glinte LipGloss": "glinte"
+                };
+                const caseId = idMap[client.name];
+                if (caseId) navigate(`/case-studies/${caseId}`);
               }}
               className="group flex flex-col items-start px-8 py-6 rounded-2xl glass border-white/5 hover:border-neon-primary/30 transition-all duration-300 cursor-pointer"
             >
