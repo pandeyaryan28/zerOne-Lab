@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring, useMotionValue } from "motion/react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/sections/Hero";
 import { Clients } from "./components/sections/Clients";
@@ -12,6 +12,7 @@ import { AddOns } from "./components/sections/AddOns";
 import { WhyItWorks } from "./components/sections/WhyItWorks";
 import { Process } from "./components/sections/Process";
 import { Footer } from "./components/sections/Footer";
+import { CaseStudies } from "./components/sections/CaseStudies";
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -24,6 +25,10 @@ export default function App() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
+  // App routing/view state
+  const [view, setView] = useState<"home" | "case-studies">("home");
+  const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -33,6 +38,19 @@ export default function App() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
+
+  // Handle direct selections from marquee or lists
+  const handleSelectCase = (caseId: string) => {
+    setSelectedCaseId(caseId);
+    setView("case-studies");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleNavbarViewChange = (newView: "home" | "case-studies", caseId: string | null = null) => {
+    setView(newView);
+    setSelectedCaseId(caseId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="relative min-h-screen bg-dark-bg selection:bg-neon-primary selection:text-black">
@@ -57,19 +75,29 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      <Navbar />
+      <Navbar currentView={view} onViewChange={handleNavbarViewChange} />
       
       <main className="relative z-10">
-        <Hero />
-        <Clients />
-        <div id="problem"><Problem /></div>
-        <Philosophy />
-        <WhatIsZerone />
-        <div id="pricing"><Pricing /></div>
-        <AddOns />
-        <div id="value"><Value /></div>
-        <WhyItWorks />
-        <div id="process"><Process /></div>
+        {view === "home" ? (
+          <>
+            <Hero />
+            <Clients onSelectCase={handleSelectCase} />
+            <div id="problem"><Problem /></div>
+            <Philosophy />
+            <WhatIsZerone />
+            <div id="pricing"><Pricing /></div>
+            <AddOns />
+            <div id="value"><Value /></div>
+            <WhyItWorks />
+            <div id="process"><Process /></div>
+          </>
+        ) : (
+          <CaseStudies 
+            onBackToHome={() => setView("home")} 
+            initialSelectedId={selectedCaseId}
+            onClearSelectedId={() => setSelectedCaseId(null)}
+          />
+        )}
         <Footer />
       </main>
     </div>

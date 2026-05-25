@@ -1,7 +1,12 @@
 import { motion } from "motion/react";
 import { Award, TrendingUp } from "lucide-react";
+import * as React from "react";
 
-export const Clients = () => {
+interface ClientsProps {
+  onSelectCase?: (caseId: string) => void;
+}
+
+export const Clients: React.FC<ClientsProps> = ({ onSelectCase }) => {
   const clients = [
     { name: "Intugine Technologies", type: "Logistics Tech", highlight: "SERIES A" },
     { name: "SVS Food", type: "F&B", highlight: "SHARK TANK FUNDED" },
@@ -17,7 +22,7 @@ export const Clients = () => {
       <div className="container mx-auto px-6 mb-12">
         <div className="flex items-center gap-4 opacity-50">
           <Award className="w-5 h-5 text-neon-primary" />
-          <span className="text-xs font-mono font-bold uppercase tracking-[0.3em]">Trusted by Forward-Thinking Founders</span>
+          <span className="text-xs font-mono font-bold uppercase tracking-[0.3em]">Trusted by Forward-Thinking Founders (Click to view Case Study)</span>
         </div>
       </div>
 
@@ -25,12 +30,24 @@ export const Clients = () => {
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="flex whitespace-nowrap gap-12 items-center py-4"
+          className="flex whitespace-nowrap gap-12 items-center py-4 text-left"
         >
           {marqueeItems.map((client, i) => (
             <div
               key={i}
-              className="group flex flex-col items-start px-8 py-6 rounded-2xl glass border-white/5 hover:border-neon-primary/30 transition-all duration-300"
+              onClick={() => {
+                if (onSelectCase) {
+                  const idMap: Record<string, string> = {
+                    "Intugine Technologies": "intugine",
+                    "SVS Food": "svsfood",
+                    "UniCare": "unicare",
+                    "Glinte LipGloss": "glinte"
+                  };
+                  const caseId = idMap[client.name];
+                  if (caseId) onSelectCase(caseId);
+                }
+              }}
+              className="group flex flex-col items-start px-8 py-6 rounded-2xl glass border-white/5 hover:border-neon-primary/30 transition-all duration-300 cursor-pointer"
             >
               <div className="flex items-center gap-3 mb-1">
                 <span className="text-2xl md:text-3xl font-black tracking-tighter text-white/80 group-hover:text-neon-primary transition-colors">
