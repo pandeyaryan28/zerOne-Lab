@@ -64,7 +64,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              onClick={() => window.open('https://calendly.com', '_blank')}
+              onClick={() => window.open('https://forms.gle/5EMDGejeuiucGJZG8', '_blank')}
               className="h-16 px-10 text-lg rounded-lg"
             >
               Book Strategy Call
